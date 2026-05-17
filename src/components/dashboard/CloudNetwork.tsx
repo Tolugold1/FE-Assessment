@@ -1,4 +1,4 @@
-import { Cloud, ChevronDown, AlertTriangle, Zap } from 'lucide-react'
+import { Cloud, ChevronDown, AlertTriangle, Zap, HardDrive } from 'lucide-react'
 import { Card, SectionHeader } from '../ui/Card'
 import { DraggableCards } from '../ui/DraggableCards'
 import { cloudNetworkCards } from '../../data/mock'
@@ -19,8 +19,8 @@ export function CloudNetwork() {
 
       {/* 4-column layout from the design:
             col 1+2 → 2×2 grid of metric cards
-            col 3   → Storage panel spanning both rows
-            col 4   → Note panel spanning both rows */}
+            col 3   → Storage panel
+            col 4   → Note panel */}
       <div className="p-5 grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-2">
           <DraggableCards
@@ -30,20 +30,31 @@ export function CloudNetwork() {
           />
         </div>
 
-        <div className="rounded-xl border border-ink-200 p-4 flex items-start gap-4">
-          <StorageDonut used={80} />
-          <ul className="space-y-1.5 text-xs">
-            <Legend color="#3b82f6" label="Files" />
-            <Legend color="#a855f7" label="Folders" />
-            <Legend color="#22c55e" label="Videos" />
-            <Legend color="#f97316" label="Apps" />
-            <Legend color="#ec4899" label="Audios" />
-            <Legend color="#0ea5e9" label="Miscellaneous" />
-            <Legend color="#e5e7eb" label="Available Space" />
-          </ul>
+        {/* Storage */}
+        <div className="rounded-xl border border-ink-200 p-4">
+          <div className="flex items-center gap-2 text-ink-500 text-sm mb-4">
+            <HardDrive className="size-4" strokeWidth={1.7} />
+            <span>Storage</span>
+          </div>
+          <div className="flex items-start gap-4">
+            <StorageDonut used={80} />
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+              <Legend color="#3b82f6" label="Files" />
+              <Legend color="#a855f7" label="Folders" />
+              <Legend color="#22c55e" label="Videos" />
+              <Legend color="#f97316" label="Apps" />
+              <Legend color="#ec4899" label="Audios" />
+              <Legend color="#0ea5e9" label="Miscellaneous" />
+              <li className="col-span-2 flex items-center gap-2 text-ink-700">
+                <span className="size-2.5 rounded-sm bg-ink-200" />
+                <span>Available Space</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4 flex flex-col">
+        {/* Note */}
+        <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
           <div className="flex items-start gap-2">
             <AlertTriangle className="size-4 text-amber-500 mt-0.5 shrink-0" />
             <div>
@@ -54,11 +65,9 @@ export function CloudNetwork() {
               </p>
             </div>
           </div>
-          <button className="self-start mt-auto pt-4">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-500 text-white text-sm font-medium px-3 py-1.5 hover:bg-brand-600 transition-colors">
-              <Zap className="size-3.5" />
-              Upgrade Plan
-            </span>
+          <button className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-brand-500 text-white text-sm font-medium px-3 py-1.5 hover:bg-brand-600 transition-colors">
+            <Zap className="size-3.5" />
+            Upgrade Plan
           </button>
         </div>
       </div>
