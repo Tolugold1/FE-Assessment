@@ -99,3 +99,36 @@ export const onlineUsers: OnlineUser[] = [
   { name: 'Cody Fisher',    location: 'Lagos, Nigeria',     organization: 'MSBM, Lagos',     device: 'Windows', activity: { app: 'Microsoft Teams', color: 'teams' },     usage: '45 minutes',         online: false },
   { name: 'Dianne Russell', location: 'London, UK',         organization: 'MSBM, London',    device: 'Linux',   activity: { app: 'YouTube',         color: 'youtube' },   usage: '45 minutes',         online: true  },
 ]
+
+export type AppActivity = {
+  app: string
+  color: string
+  users: number
+  hours: string
+  date: string
+}
+
+export const appActivity: AppActivity[] = [
+  { app: 'Google Chrome',   color: 'chrome',    users: 34, hours: '3 hours 12 minutes', date: '2024-06-26 15:33:49' },
+  { app: 'YouTube',         color: 'youtube',   users: 12, hours: '2 hours 8 minutes',  date: '2024-05-26 12:45:41' },
+  { app: 'Microsoft Teams', color: 'teams',     users: 16, hours: '6 hours 45 minutes', date: '2024-05-21 16:28:21' },
+  { app: 'WhatsApp',        color: 'whatsapp',  users: 49, hours: '1 hour 30 minutes',  date: '2024-05-26 15:33:49' },
+  { app: 'Opera Mini',      color: 'opera',     users:  3, hours: '9 hours 10 minutes', date: '2024-05-21 16:28:21' },
+  { app: 'Instagram',       color: 'instagram', users: 22, hours: '45 minutes',         date: '2024-05-26 12:45:41' },
+]
+
+export type WebActivity = {
+  site: string
+  color: string
+  pct: number
+  duration: string
+}
+
+export const webActivity: WebActivity[] = [
+  { site: 'Chrome',    color: '#4285F4', pct: 78, duration: '5 hours 12 minutes' },
+  { site: 'Gmail',     color: '#EA4335', pct: 61, duration: '2 hours 24 minutes' },
+  { site: 'Firefox',   color: '#FF7139', pct: 45, duration: '40 minutes' },
+  { site: 'Instagram', color: '#E1306C', pct: 78, duration: '5 hours 6 minutes' },
+  { site: 'x.com',     color: '#0f172a', pct: 59, duration: '1 hour 8 minutes' },
+  { site: 'Facebook',  color: '#1877F2', pct: 61, duration: '3 hours 1 minute' },
+]

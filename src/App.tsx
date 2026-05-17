@@ -7,6 +7,8 @@ import { DeviceManagement } from './components/dashboard/DeviceManagement'
 import { ProductivityReport } from './components/dashboard/ProductivityReport'
 import { EmailCharts } from './components/dashboard/EmailCharts'
 import { OnlineUsers } from './components/dashboard/OnlineUsers'
+import { AppActivityReport } from './components/dashboard/AppActivityReport'
+import { WebActivity } from './components/dashboard/WebActivity'
 
 export default function App() {
   return (
@@ -26,6 +28,11 @@ export default function App() {
           <ProductivityReport />
           <EmailCharts />
           <OnlineUsers />
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 [&>*]:min-w-0">
+            <AppActivityReport />
+            <WebActivity />
+          </div>
         </div>
       </main>
     </div>

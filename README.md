@@ -12,7 +12,7 @@ assessment.
 
 - **React 19** + **TypeScript** + **Vite**
 - **Tailwind CSS v4** for styling (via `@tailwindcss/vite`)
-- **@hello-pangea/dnd** for drag-and-drop (see notes below)
+- **@dnd-kit** for drag-and-drop (see notes below)
 - **Recharts** for the bar and area charts
 - **lucide-react** for icons
 
@@ -57,9 +57,6 @@ under its own `localStorage` key (e.g. `snaarp.cloudNetwork.order`).
 
 To stay honest about a weekend-sized scope I did not attempt:
 
-- The **App Activity Report** and **Web Activity** panels at the bottom of the
-  design. They would mostly repeat patterns already covered (table + progress
-  bar) and weren't strictly part of the d&d brief.
 - A real interactive **map** for the "Active Users" panel. A proper Mapbox /
   Leaflet integration was out of scope for the timeframe, so I drew a stand-in
   SVG with the pins from the design.
@@ -72,10 +69,15 @@ To stay honest about a weekend-sized scope I did not attempt:
 
 - `react-beautiful-dnd` is the library the brief lists by name, but it has
   been [deprecated since 2022](https://github.com/atlassian/react-beautiful-dnd/issues/2672)
-  and is unmaintained for React 18+. I used
-  [`@hello-pangea/dnd`](https://github.com/hello-pangea/dnd) instead — the
-  community-maintained fork with the same API surface. Drop-in for the
-  consumer code.
+  and is unmaintained for React 18+. I initially used the maintained fork
+  `@hello-pangea/dnd` — same API, same family — but ran into a fundamental
+  limitation: both libraries are 1D-only. The Cloud Network section in the
+  design is a 2×2 grid of metric cards, and in that layout the placement
+  transforms `react-beautiful-dnd` applies to siblings during a drag
+  escape the column boundaries and visually overlap the next section.
+  Switched to [`@dnd-kit`](https://docs.dndkit.com/) and used its
+  `rectSortingStrategy`, which is purpose-built for 2D grids. As a bonus
+  the bundle is ~40 kB smaller.
 - **Recharts 3 + React 19 ResponsiveContainer** can land in a measurement
   loop where reported dimensions oscillate between `-1` and the real size.
   Symptom: tons of `width(-1) and height(-1) of chart should be greater than 0`
