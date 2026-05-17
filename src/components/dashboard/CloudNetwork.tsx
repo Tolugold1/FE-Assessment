@@ -1,4 +1,4 @@
-import { Cloud, ChevronDown, AlertTriangle, Zap, HardDrive } from 'lucide-react'
+import { Cloud, ChevronDown, Zap, HardDrive } from 'lucide-react'
 import { Card, SectionHeader } from '../ui/Card'
 import { DraggableCards } from '../ui/DraggableCards'
 import { cloudNetworkCards } from '../../data/mock'
@@ -17,23 +17,21 @@ export function CloudNetwork() {
         }
       />
 
-      {/* 4-column × 2-row layout from the design:
-            cols 1–2 row 1+2 → 2×2 grid of metric cards (draggable)
-            col 3   row 1+2 → Storage card (donut + 3-col legend)
-            col 4   row 1   → Note (amber)
-            col 4   row 2   → standalone outlined Upgrade Plan button */}
-      <div className="p-5 grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-[auto_auto] gap-4">
-        {/* Metric cards — span 2 cols × 2 rows */}
-        <div className="lg:col-span-2 lg:row-span-2">
+      {/* 4-column layout. We use items-start on the outer grid and pin Storage
+          + col-4 with self-stretch so they fill the cards' height while the
+          Note card itself stays compact at the top of column 4. */}
+      <div className="p-5 grid grid-cols-1 lg:grid-cols-4 gap-4 items-start">
+        {/* Metric cards — 2×2 in cols 1–2, draggable */}
+        <div className="lg:col-span-2">
           <DraggableCards
             storageKey="snaarp.cloudNetwork.order"
             cards={cloudNetworkCards}
-            gridClassName="grid grid-cols-1 sm:grid-cols-2 gap-3 h-full"
+            gridClassName="grid grid-cols-1 sm:grid-cols-2 gap-3"
           />
         </div>
 
-        {/* Storage — spans 2 rows */}
-        <div className="lg:row-span-2 rounded-xl border border-ink-200 p-5 flex flex-col">
+        {/* Storage — col 3 */}
+        <div className="lg:self-stretch rounded-xl border border-ink-200 p-5 flex flex-col">
           <div className="flex items-center gap-2 text-ink-500 text-sm">
             <HardDrive className="size-4" strokeWidth={1.7} />
             <span>Storage</span>
@@ -57,29 +55,43 @@ export function CloudNetwork() {
           </ul>
         </div>
 
-        {/* Note — row 1 only */}
-        <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
-          <div className="flex items-start gap-2">
-            <AlertTriangle className="size-4 text-amber-500 mt-0.5 shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-ink-900">Note</p>
-              <p className="text-xs text-ink-500 mt-1 leading-relaxed">
-                You've almost reached your limit. You have used 80% of your
-                available storage. Upgrade plan to access more space.
-              </p>
+        {/* Col 4: Note on top (natural height), spacer, Upgrade button bottom-right */}
+        <div className="lg:self-stretch flex flex-col gap-3">
+          <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
+            <div className="flex items-start gap-2.5">
+              <AlertBadge />
+              <div>
+                <p className="text-sm font-medium text-ink-900">Note</p>
+                <p className="text-xs text-ink-500 mt-1 leading-relaxed">
+                  You've almost reached your limit. You have used 80% of your
+                  available storage. Upgrade plan to access more space.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Standalone outlined Upgrade Plan button — row 2 */}
-        <div className="flex items-end justify-end">
-          <button className="inline-flex items-center gap-1.5 rounded-md border border-brand-500 text-brand-600 bg-white text-sm font-medium px-4 py-2 hover:bg-brand-50 transition-colors">
-            <Zap className="size-3.5" />
-            Upgrade Plan
-          </button>
+          <div className="flex-1 flex items-end justify-end">
+            <button className="inline-flex items-center gap-1.5 rounded-md border border-brand-500 text-brand-600 bg-white text-sm font-medium px-4 py-2 hover:bg-brand-50 transition-colors">
+              <Zap className="size-3.5" />
+              Upgrade Plan
+            </button>
+          </div>
         </div>
       </div>
     </Card>
+  )
+}
+
+function AlertBadge() {
+  // Filled amber circle with a white exclamation — matches the design.
+  // Lucide's AlertCircle is a hollow outline, so we build it instead.
+  return (
+    <span
+      aria-hidden="true"
+      className="grid place-items-center size-5 rounded-full bg-amber-400 text-white text-xs font-bold shrink-0 leading-none"
+    >
+      !
+    </span>
   )
 }
 
