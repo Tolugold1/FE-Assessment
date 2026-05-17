@@ -20,7 +20,11 @@ export function ProductivityReport() {
         }
       />
       <div className="p-5">
-        <DraggableCards storageKey="snaarp.productivity.order" cards={productivityCards} />
+        <DraggableCards
+          storageKey="snaarp.productivity.order"
+          cards={productivityCards}
+          gridClassName="grid grid-cols-1 md:grid-cols-4 gap-4"
+        />
       </div>
     </Card>
   )
