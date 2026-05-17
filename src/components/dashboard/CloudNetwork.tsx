@@ -17,31 +17,59 @@ export function CloudNetwork() {
         }
       />
 
-      {/* 4-column layout. We use items-start on the outer grid and pin Storage
-          + col-4 with self-stretch so they fill the cards' height while the
-          Note card itself stays compact at the top of column 4. */}
-      <div className="p-5 grid grid-cols-1 lg:grid-cols-4 gap-4 items-start">
-        {/* Metric cards — 2×2 in cols 1–2, draggable */}
-        <div className="lg:col-span-2">
-          <DraggableCards
-            storageKey="snaarp.cloudNetwork.order"
-            cards={cloudNetworkCards}
-            gridClassName="grid grid-cols-1 sm:grid-cols-2 gap-3"
-          />
+      {/* Cloud Network: 2×2 metric cards on the left, a single combined
+          "Storage" section card on the right. */}
+      <div className="p-5 grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+        <DraggableCards
+          storageKey="snaarp.cloudNetwork.order"
+          cards={cloudNetworkCards}
+          gridClassName="grid grid-cols-1 sm:grid-cols-2 gap-3"
+        />
+
+        <StoragePanel />
+      </div>
+    </Card>
+  )
+}
+
+function StoragePanel() {
+  return (
+    <div className="rounded-xl border border-ink-200 p-5">
+      <div className="flex items-center gap-2 text-ink-500 text-sm mb-4">
+        <HardDrive className="size-4" strokeWidth={1.7} />
+        <span>Storage</span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 items-start">
+        {/* Donut */}
+        <div className="flex items-center justify-center md:justify-start">
+          <StorageDonut used={80} />
         </div>
 
-        {/* Storage — col 3 */}
-        <div className="lg:self-stretch rounded-xl border border-ink-200 p-5 flex flex-col">
-          <div className="flex items-center gap-2 text-ink-500 text-sm">
-            <HardDrive className="size-4" strokeWidth={1.7} />
-            <span>Storage</span>
+        {/* Note + Legend + Upgrade button stack */}
+        <div className="flex flex-col gap-4">
+          {/* Note callout — amber accent stripe on the left edge */}
+          <div className="relative rounded-md border border-amber-200 bg-amber-50/80 pl-4 pr-3 py-2.5 overflow-hidden">
+            <span
+              aria-hidden="true"
+              className="absolute inset-y-0 left-0 w-1 bg-amber-400"
+            />
+            <div className="flex items-start gap-2">
+              <AlertBadge />
+              <div>
+                <p className="text-sm font-medium text-amber-700">Note</p>
+                <p className="text-xs text-ink-500 mt-1 leading-relaxed">
+                  You've almost reached your limit
+                  <br />
+                  You have used 80% of your available storage. Upgrade
+                  plan to access more space.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="flex-1 flex items-center justify-center py-4">
-            <StorageDonut used={80} />
-          </div>
-
-          <ul className="grid grid-cols-3 gap-x-3 gap-y-2 text-[11px] text-ink-700">
+          {/* Legend grid */}
+          <ul className="grid grid-cols-3 gap-x-4 gap-y-2 text-xs text-ink-700">
             <Legend color="#3b82f6" label="Files" />
             <Legend color="#a855f7" label="Folders" />
             <Legend color="#22c55e" label="Videos" />
@@ -53,24 +81,9 @@ export function CloudNetwork() {
               <span>Available Space</span>
             </li>
           </ul>
-        </div>
 
-        {/* Col 4: Note on top (natural height), spacer, Upgrade button bottom-right */}
-        <div className="lg:self-stretch flex flex-col gap-3">
-          <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
-            <div className="flex items-start gap-2.5">
-              <AlertBadge />
-              <div>
-                <p className="text-sm font-medium text-ink-900">Note</p>
-                <p className="text-xs text-ink-500 mt-1 leading-relaxed">
-                  You've almost reached your limit. You have used 80% of your
-                  available storage. Upgrade plan to access more space.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex-1 flex items-end justify-end">
+          {/* Outlined Upgrade Plan button, bottom-right */}
+          <div className="flex justify-end pt-2">
             <button className="inline-flex items-center gap-1.5 rounded-md border border-brand-500 text-brand-600 bg-white text-sm font-medium px-4 py-2 hover:bg-brand-50 transition-colors">
               <Zap className="size-3.5" />
               Upgrade Plan
@@ -78,17 +91,15 @@ export function CloudNetwork() {
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   )
 }
 
 function AlertBadge() {
-  // Filled amber circle with a white exclamation — matches the design.
-  // Lucide's AlertCircle is a hollow outline, so we build it instead.
   return (
     <span
       aria-hidden="true"
-      className="grid place-items-center size-5 rounded-full bg-amber-400 text-white text-xs font-bold shrink-0 leading-none"
+      className="grid place-items-center size-5 rounded-full bg-amber-400 text-white text-xs font-bold shrink-0 leading-none mt-0.5"
     >
       !
     </span>
